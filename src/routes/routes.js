@@ -3,4 +3,4 @@ import express from "express";
 const router = express.Router();
 router.use(express.json());
 
-router.get("/layers/updated-last-week");
+router.get("/layers/updated-last-week", async (req, res) => {});

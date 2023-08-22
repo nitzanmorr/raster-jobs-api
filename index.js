@@ -12,17 +12,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/short", shortRouter);
-
-const startApp = async () => {
-  await urls.sync();
-};
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
-  startApp();
 });
 
 export default app;
