@@ -5,6 +5,8 @@ const {
   getJobByJobId,
   getJobsAroundDate,
   updateJobStatus,
+  getJobsCreatedBeforeDate,
+  getJobsCreatedAfterDate,
 } = require("../services/dbServices");
 const { statuses } = require("../types/JobStatusEnum");
 
@@ -42,7 +44,7 @@ router.patch("/job/update-status-by-id", async (req, res) => {
   if (id) {
     if (statuses.includes(status)) {
       const job = updateJobStatus(id, status);
-      return job;
+      res.send(job);
     } else {
       throw new Error(
         "status must be one of the following: 'In-Progress', 'Completed', 'Aborted'"
@@ -51,6 +53,18 @@ router.patch("/job/update-status-by-id", async (req, res) => {
   } else {
     throw new Error("id cannot be empty");
   }
+});
+
+router.get("/jobs/before/:date", async (req, res) => {
+  const date = req.params.date;
+  const jobs = await getJobsCreatedBeforeDate(date);
+  res.send(jobs);
+});
+
+router.get("/jobs/after/:date", async (req, res) => {
+  const date = req.params.date;
+  const jobs = await getJobsCreatedAfterDate(date);
+  res.send(jobs);
 });
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const Job = require("../models/Job");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
 module.exports.getJobsUpdatedLastWeek = async () => {
   let weekAgo = new Date();
@@ -58,4 +58,26 @@ module.exports.updateJobStatus = async (id, status) => {
   const updatedJob = await job.update({ status: status });
   await updatedJob.save();
   return updatedJob;
+};
+
+module.exports.getJobsCreatedBeforeDate = async (date) => {
+  const jobs = await Job.findAll({
+    where: {
+      creationTime: {
+        [Op.lt]: date,
+      },
+    },
+  });
+  return jobs;
+};
+
+module.exports.getJobsCreatedAfterDate = async (date) => {
+  const jobs = await Job.findAll({
+    where: {
+      creationTime: {
+        [Op.gt]: date,
+      },
+    },
+  });
+  return jobs;
 };
