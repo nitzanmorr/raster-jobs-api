@@ -8,8 +8,8 @@ const port = process.env.APP_PORT;
 app.use(router);
 
 app.get("/", (req, res) => {
-  testDbConnection();
   res.send("Hello World!");
+  testDbConnection();
 });
 
 app.listen(port, () => {
