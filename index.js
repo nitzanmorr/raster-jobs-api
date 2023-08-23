@@ -1,11 +1,11 @@
-import express from "express";
-import { testDbConnection } from "./src/configs/db.js";
-import dotenv from "dotenv";
-
-dotenv.config();
+const express = require("express");
+const { testDbConnection, sequelize } = require("./src/configs/db");
+require("dotenv").config();
+const router = require("./src/routes/routes");
 
 const app = express();
 const port = process.env.APP_PORT;
+app.use(router);
 
 app.get("/", (req, res) => {
   testDbConnection();
@@ -16,4 +16,4 @@ app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
 
-export default app;
+module.exports = app;

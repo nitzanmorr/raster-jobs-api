@@ -1,6 +1,12 @@
-import express from "express";
+const express = require("express");
+const { getJobsUpdatedLastWeek } = require("../services/dbServices");
 
 const router = express.Router();
 router.use(express.json());
 
-router.get("/layers/updated-last-week", async (req, res) => {});
+router.get("/jobs/updated-last-week", async (req, res) => {
+  const updatedLastWeek = await getJobsUpdatedLastWeek();
+  res.send(updatedLastWeek);
+});
+
+module.exports = router;
