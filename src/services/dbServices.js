@@ -26,11 +26,7 @@ module.exports.getAllUncompleted = async () => {
 };
 
 module.exports.getJobByJobId = async (jobId) => {
-  const jobs = await Job.findOne({
-    where: {
-      id: jobId,
-    },
-  });
+  const jobs = await Job.findByPk(jobId);
   return jobs;
 };
 
@@ -51,9 +47,15 @@ module.exports.getJobsAroundDate = async (dateParam) => {
         },
       },
     });
-    console.log("wow");
     return jobs;
   } catch (e) {
     throw e;
   }
+};
+
+module.exports.updateJobStatus = async (id, status) => {
+  const job = await Job.findByPk(id);
+  const updatedJob = await job.update({ status: status });
+  await updatedJob.save();
+  return updatedJob;
 };

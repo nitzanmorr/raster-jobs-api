@@ -4,7 +4,9 @@ const {
   getAllUncompleted,
   getJobByJobId,
   getJobsAroundDate,
+  updateJobStatus,
 } = require("../services/dbServices");
+const { statuses } = require("../types/JobStatusEnum");
 
 const router = express.Router();
 router.use(express.json());
@@ -26,11 +28,29 @@ router.get("/job/:id", async (req, res) => {
 
 router.get("/jobs/updated-around-parameter/:date", async (req, res) => {
   const date = req.params.date;
-  if (!date) {
+  if (date) {
+    const jobs = await getJobsAroundDate(date);
+    res.send(jobs);
+  } else {
     throw new Error("Date cannot be empty");
   }
-  const jobs = await getJobsAroundDate(date);
-  res.send(jobs);
+});
+
+router.patch("/job/update-status-by-id", async (req, res) => {
+  const id = req.query.id;
+  const status = req.query.status;
+  if (id) {
+    if (statuses.includes(status)) {
+      const job = updateJobStatus(id, status);
+      return job;
+    } else {
+      throw new Error(
+        "status must be one of the following: 'In-Progress', 'Completed', 'Aborted'"
+      );
+    }
+  } else {
+    throw new Error("id cannot be empty");
+  }
 });
 
 module.exports = router;
