@@ -81,3 +81,18 @@ module.exports.getJobsCreatedAfterDate = async (date) => {
   });
   return jobs;
 };
+
+module.exports.getJobsByStatusAndAroundUpdateTime = async (status, date) => {
+  try {
+    const jobsAroundUpdateTime = await this.getJobsAroundDate(date);
+    //   const jobs = await jobsAroundUpdateTime.findAll({
+    // where: {
+    //   status: status,
+    // },
+    //   });
+    jobs = jobsAroundUpdateTime.filter((job) => job.status === status);
+    return jobs;
+  } catch (e) {
+    throw e;
+  }
+};
