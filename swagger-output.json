@@ -1,0 +1,208 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Raster job manager API",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9900",
+      "description": ""
+    }
+  ],
+  "tags": [
+    {
+      "name": "",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Hello world!",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/jobs/updated-last-week": {
+      "get": {
+        "summary": "Returns all jobs that were updated last week",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/jobs/uncompleted": {
+      "get": {
+        "summary": "Returns all uncompleted jobs",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/job/{id}": {
+      "get": {
+        "summary": "Returns a job by id (path parameter)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/jobs/updated-around/{date}": {
+      "get": {
+        "summary": "Returns all jobs that were updated 24 hours around a date (path parameter)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/job/update-status-by-id": {
+      "patch": {
+        "summary": "Updates the status of a job (by id)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "new status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "In-Progress",
+                "Completed",
+                "Aborted"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/jobs/before/{date}": {
+      "get": {
+        "summary": "Returns all jobs that were created before a date (path parameter)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/jobs/after/{date}": {
+      "get": {
+        "summary": "Returns all jobs that were created after a date (path parameter)",
+        "description": "",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/jobs/around-update-time-and-status": {
+      "get": {
+        "summary": "Returns all jobs that were updated around a date and matches a status",
+        "description": "",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "In-Progress",
+                "Completed",
+                "Aborted"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
