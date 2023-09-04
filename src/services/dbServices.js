@@ -2,8 +2,10 @@ const Job = require("../models/Job");
 const { Op, where } = require("sequelize");
 
 module.exports.getJobsUpdatedLastWeek = async () => {
-  let weekAgo = new Date();
-  weekAgo.setDate(weekAgo.getDate() - 7);
+  const weekDaysNum = 7;
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - weekDaysNum);
+
   const jobs = await Job.findAll({
     where: {
       updateTime: {

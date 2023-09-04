@@ -10,12 +10,6 @@ const port = process.env.APP_PORT;
 app.use(router);
 app.use("/docs/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.get("/", (req, res) => {
-  // #swagger.summary = "Hello world!"
-  res.send("Hello World!");
-  testDbConnection();
-});
-
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
