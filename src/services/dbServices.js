@@ -26,15 +26,14 @@ module.exports.getAllUncompleted = async () => {
 };
 
 module.exports.getJobByJobId = async (jobId) => {
-  const jobs = await Job.findByPk(jobId);
-  return jobs;
+  return await Job.findByPk(jobId);
 };
 
 module.exports.getJobsAroundDate = async (dateParam) => {
   const floorDate = new Date(dateParam);
   floorDate.setHours(floorDate.getHours() - 12);
-  const ceilingDate = new Date(dateParam);
-  ceilingDate.setHours(ceilingDate.getHours() + 12);
+  const topDate = new Date(dateParam);
+  topDate.setHours(topDate.getHours() + 12);
 
   try {
     const jobs = await Job.findAll({
@@ -42,7 +41,7 @@ module.exports.getJobsAroundDate = async (dateParam) => {
         updateTime: {
           [Op.and]: {
             [Op.gte]: floorDate,
-            [Op.lte]: ceilingDate,
+            [Op.lte]: topDate,
           },
         },
       },
@@ -54,7 +53,7 @@ module.exports.getJobsAroundDate = async (dateParam) => {
 };
 
 module.exports.updateJobStatus = async (id, status) => {
-  const job = await Job.findByPk(id);
+  const job = await this.getJobByJobId(id);
   const updatedJob = await job.update({ status: status });
   await updatedJob.save();
   return updatedJob;
@@ -85,12 +84,7 @@ module.exports.getJobsCreatedAfterDate = async (date) => {
 module.exports.getJobsByStatusAndAroundUpdateTime = async (status, date) => {
   try {
     const jobsAroundUpdateTime = await this.getJobsAroundDate(date);
-    //   const jobs = await jobsAroundUpdateTime.findAll({
-    // where: {
-    //   status: status,
-    // },
-    //   });
-    jobs = jobsAroundUpdateTime.filter((job) => job.status === status);
+    const jobs = jobsAroundUpdateTime.filter((job) => job.status === status);
     return jobs;
   } catch (e) {
     throw e;
